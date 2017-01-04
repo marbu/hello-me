@@ -24,6 +24,10 @@ Project structure, maven build configuration and other Java plumbing related
 details (including build instructions in this README file) are based on code of
 [topt-me](https://github.com/kwart/totp-me) project.
 
+Tutorials used:
+
+* [J2ME: Using StringItems and Commands](https://www.codeproject.com/Articles/182578/J-ME-Using-StringItems-and-Commands)
+
 ## License
 
 Distributed under the terms of the

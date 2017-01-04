@@ -17,22 +17,36 @@
 package eu.marbu.hello;
 
 import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.lcdui.StringItem;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.CommandListener;
 import javax.microedition.midlet.MIDlet;
 
 /**
  * Hello for Java ME.
  */
-public class HelloMIDlet extends MIDlet {
+public class HelloMIDlet extends MIDlet implements CommandListener {
 
 	private Display display;
 	private Form helloForm;
+	private StringItem helloString;
+	private Command helloCmd;
+	private Command exitCmd;
 
 	/**
 	 * Constructor - initializes GUI components.
 	 */
 	public HelloMIDlet() {
-		helloForm = new Form("Hello World");
+		helloForm = new Form("Hello ME");
+		helloString = new StringItem("Label:", "Some text.");
+		helloCmd = new Command("Hello", Command.SCREEN, 0);
+		exitCmd = new Command("Exit", Command.EXIT, 1);
+		helloForm.append(helloString);
+		helloForm.addCommand(helloCmd);
+		helloForm.addCommand(exitCmd);
+		helloForm.setCommandListener(this);
 	}
 
 	/**
@@ -53,6 +67,23 @@ public class HelloMIDlet extends MIDlet {
 	 * @see javax.microedition.midlet.MIDlet#destroyApp(boolean)
 	 */
 	public void destroyApp(boolean unconditional) {
+	}
+
+	/**
+	 * Handles command actions from all forms.
+	 *
+	 * @see javax.microedition.lcdui.CommandListener#commandAction(javax.microedition.lcdui.Command,
+	 *      javax.microedition.lcdui.Displayable)
+	 */
+	public void commandAction(Command aCmd, Displayable aDisp) {
+		if (aDisp == helloForm) {
+			if (aCmd == helloCmd) {
+				helloString.setLabel("Hello");
+				helloString.setText("World!");
+			} else if (aCmd == exitCmd) {
+				notifyDestroyed();
+			}
+		}
 	}
 
 }
