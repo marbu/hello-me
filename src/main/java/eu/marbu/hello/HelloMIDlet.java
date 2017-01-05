@@ -33,6 +33,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	private Form helloForm;
 	private StringItem helloString;
 	private Command helloCmd;
+	private Command clearCmd;
 	private Command exitCmd;
 
 	/**
@@ -40,11 +41,13 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	 */
 	public HelloMIDlet() {
 		helloForm = new Form("Hello ME");
-		helloString = new StringItem("Label:", "Some text.");
+		helloString = new StringItem(null, null);
 		helloCmd = new Command("Hello", Command.SCREEN, 0);
-		exitCmd = new Command("Exit", Command.EXIT, 1);
+		clearCmd = new Command("Clear", Command.SCREEN, 1);
+		exitCmd = new Command("Exit", Command.EXIT, 2);
 		helloForm.append(helloString);
 		helloForm.addCommand(helloCmd);
+		helloForm.addCommand(clearCmd);
 		helloForm.addCommand(exitCmd);
 		helloForm.setCommandListener(this);
 	}
@@ -78,8 +81,9 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	public void commandAction(Command aCmd, Displayable aDisp) {
 		if (aDisp == helloForm) {
 			if (aCmd == helloCmd) {
-				helloString.setLabel("Hello");
-				helloString.setText("World!");
+				helloString.setText("Hello World!");
+			} else if (aCmd == clearCmd) {
+				helloString.setText(null);
 			} else if (aCmd == exitCmd) {
 				notifyDestroyed();
 			}
