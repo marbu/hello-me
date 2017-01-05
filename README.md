@@ -27,6 +27,7 @@ details (including build instructions in this README file) are based on code of
 Tutorials used:
 
 * [J2ME: Using StringItems and Commands](https://www.codeproject.com/Articles/182578/J-ME-Using-StringItems-and-Commands)
+* [J2ME: Using TextFields and Alerts](https://www.codeproject.com/Articles/195483/J-ME-Using-TextFields-and-Alerts)
 
 ## License
 

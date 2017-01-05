@@ -16,12 +16,7 @@
 
 package eu.marbu.hello;
 
-import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Form;
-import javax.microedition.lcdui.StringItem;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.*;
 import javax.microedition.midlet.MIDlet;
 
 /**
@@ -30,26 +25,45 @@ import javax.microedition.midlet.MIDlet;
 public class HelloMIDlet extends MIDlet implements CommandListener {
 
 	private Display display;
-	private Form helloForm;
-	private StringItem helloString;
-	private Command helloCmd;
-	private Command clearCmd;
+
+	// Button commands
+	private Command okCmd;
 	private Command exitCmd;
+
+	// Registration form
+	private Form registrationFrm;
+	private TextField emailTxt;
+	private TextField passwordTxt;
+	private TextField nameTxt;
+	private TextField mobileTxt;
+	private TextField urlTxt;
+
+	private Alert messageAlert;
 
 	/**
 	 * Constructor - initializes GUI components.
 	 */
 	public HelloMIDlet() {
-		helloForm = new Form("Hello ME");
-		helloString = new StringItem(null, null);
-		helloCmd = new Command("Hello", Command.SCREEN, 0);
-		clearCmd = new Command("Clear", Command.SCREEN, 1);
-		exitCmd = new Command("Exit", Command.EXIT, 2);
-		helloForm.append(helloString);
-		helloForm.addCommand(helloCmd);
-		helloForm.addCommand(clearCmd);
-		helloForm.addCommand(exitCmd);
-		helloForm.setCommandListener(this);
+		// Button commands
+		okCmd = new Command("OK", Command.OK, 0);
+		exitCmd = new Command("Exit", Command.EXIT, 1);
+
+		// Registration form
+		emailTxt = new TextField("Email:", "", 100, TextField.EMAILADDR);
+		passwordTxt = new TextField("Password:", "", 16, TextField.PASSWORD);
+		nameTxt = new TextField("Name:", "", 50, TextField.ANY);
+		mobileTxt = new TextField("Mobile:", "", 15, TextField.PHONENUMBER);
+		urlTxt = new TextField("Website:", "", 100, TextField.URL);
+		registrationFrm = new Form("User Registration", new Item[]
+				{emailTxt, passwordTxt, nameTxt, mobileTxt, urlTxt});
+		registrationFrm.addCommand(okCmd);
+		registrationFrm.addCommand(exitCmd);
+
+		messageAlert = new Alert("Registration Complete");
+		messageAlert.setTimeout(5000);
+		messageAlert.setType(AlertType.CONFIRMATION);
+
+		registrationFrm.setCommandListener(this);
 	}
 
 	/**
@@ -57,7 +71,7 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	 */
 	public void startApp() {
 		display = Display.getDisplay(this);
-		display.setCurrent(helloForm);
+		display.setCurrent(registrationFrm);
 	}
 
 	/**
@@ -79,11 +93,12 @@ public class HelloMIDlet extends MIDlet implements CommandListener {
 	 *      javax.microedition.lcdui.Displayable)
 	 */
 	public void commandAction(Command aCmd, Displayable aDisp) {
-		if (aDisp == helloForm) {
-			if (aCmd == helloCmd) {
-				helloString.setText("Hello World!");
-			} else if (aCmd == clearCmd) {
-				helloString.setText(null);
+		if (aDisp == registrationFrm) {
+			if (aCmd == okCmd) {
+				String messageContent;
+				messageContent = "Thanks " + nameTxt.getString() + "\nRegistration Complete.";
+				messageAlert.setString(messageContent);
+				display.setCurrent(messageAlert, registrationFrm);
 			} else if (aCmd == exitCmd) {
 				notifyDestroyed();
 			}
